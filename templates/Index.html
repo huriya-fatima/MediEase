@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MediEase Pro - Advanced Health Suite</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">💊</div>
+
+            <div>
+                <h1>MediEase <span>PRO</span></h1>
+                <p>Advanced Health Suite</p>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button class="nav-btn active"
+                    data-section="dashboard">
+
+                📊
+                <span data-i18n="dashboard">
+                    Analytics Dashboard
+                </span>
+
+            </button>
+
+
+            <button class="nav-btn"
+                    data-section="scheduler">
+
+                ➕
+                <span data-i18n="scheduler">
+                    Medication Scheduler
+                </span>
+
+            </button>
+
+
+            <button class="nav-btn"
+                    data-section="history">
+
+                📜
+                <span data-i18n="history">
+                    Adherence Log History
+                </span>
+
+            </button>
+
+
+            <button class="nav-btn"
+                    data-section="emergency">
+
+                🚨
+                <span data-i18n="emergency">
+                    Emergency Center
+                </span>
+
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="language-box">
+
+                <label>🌐 Language</label>
+
+                <select id="languageSelect">
+
+                    <option value="en">English</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="hi">हिन्दी</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h2 id="pageTitle">
+                    Analytics Dashboard
+                </h2>
+
+                <p id="currentDate"></p>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <button id="voiceBtn"
+                        class="icon-btn"
+                        title="Voice">
+
+                    🔊
+
+                </button>
+
+
+                <button id="refreshBtn"
+                        class="icon-btn"
+                        title="Refresh">
+
+                    🔄
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard"
+                 class="section active">
+
+            <div class="welcome">
+
+                <div>
+
+                    <h1>
+                        Welcome to MediEase Pro 👋
+                    </h1>
+
+                    <p>
+                        Manage your medications and monitor
+                        your health adherence easily.
+                    </p>
+
+                </div>
+
+                <div class="health-icon">
+                    ❤️
+                </div>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">💊</div>
+
+                    <div>
+
+                        <p>Total Medicines</p>
+
+                        <h2 id="totalMedicines">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">✅</div>
+
+                    <div>
+
+                        <p>Taken</p>
+
+                        <h2 id="takenCount">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">⚠️</div>
+
+                    <div>
+
+                        <p>Missed</p>
+
+                        <h2 id="missedCount">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">📈</div>
+
+                    <div>
+
+                        <p>Adherence Rate</p>
+
+                        <h2>
+                            <span id="adherenceRate">0</span>%
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>Medication Adherence</h3>
+
+                        <p>
+                            Your overall medication compliance
+                        </p>
+
+                    </div>
+
+                    <strong id="rateText">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div id="progressBar"
+                         class="progress-bar"
+                         style="width:0%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TODAY MEDICINES -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>Today's Medicines</h3>
+
+                        <p>
+                            Mark your medicines as taken or missed
+                        </p>
+
+                    </div>
+
+                    <button class="primary-btn"
+                            onclick="showSection('scheduler')">
+
+                        + Add Medicine
+
+                    </button>
+
+                </div>
+
+
+                <div id="todayMedicines"
+                     class="medicine-list">
+
+                    <div class="empty">
+                        No medicines added yet.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SCHEDULER -->
+
+        <section id="scheduler"
+                 class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>Medication Scheduler</h2>
+
+                    <p>
+                        Add and manage your medicines.
+                    </p>
+
+                </div>
+
+                <button id="openAddBtn"
+                        class="primary-btn">
+
+                    + Add Medicine
+
+                </button>
+
+            </div>
+
+
+            <!-- ADD FORM -->
+
+            <div id="medicineFormCard"
+                 class="card form-card hidden">
+
+                <h3 id="formTitle">
+                    Add New Medicine
+                </h3>
+
+
+                <form id="medicineForm">
+
+                    <input type="hidden"
+                           id="medicineId">
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                Medicine Name
+                            </label>
+
+                            <input type="text"
+                                   id="medicineName"
+                                   placeholder="e.g. Paracetamol"
+                                   required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Dosage
+                            </label>
+
+                            <input type="text"
+                                   id="dosage"
+                                   placeholder="e.g. 500 mg"
+                                   required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Time
+                            </label>
+
+                            <input type="time"
+                                   id="medicineTime"
+                                   required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Frequency
+                            </label>
+
+                            <select id="frequency">
+
+                                <option>Daily</option>
+                                <option>Twice Daily</option>
+                                <option>Weekly</option>
+                                <option>As Needed</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Notes
+                        </label>
+
+                        <textarea id="notes"
+                                  placeholder="Additional instructions..."></textarea>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button type="submit"
+                                class="primary-btn">
+
+                            Save Medicine
+
+                        </button>
+
+
+                        <button type="button"
+                                id="cancelForm"
+                                class="secondary-btn">
+
+                            Cancel
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- MEDICINE TABLE -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>Medicine Schedule</h3>
+
+                        <p>
+                            All scheduled medicines
+                        </p>
+
+                    </div>
+
+
+                    <input type="text"
+                           id="searchMedicine"
+                           class="search"
+                           placeholder="🔍 Search medicine">
+
+                </div>
+
+
+                <div id="medicineTable"
+                     class="table-container">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- HISTORY -->
+
+        <section id="history"
+                 class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>Adherence Log History</h2>
+
+                    <p>
+                        Track your medication activity.
+                    </p>
+
+                </div>
+
+                <button id="clearHistoryBtn"
+                        class="danger-btn">
+
+                    Clear History
+
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <div id="historyTable"
+                     class="table-container">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- EMERGENCY -->
+
+        <section id="emergency"
+                 class="section">
+
+            <div class="emergency-header">
+
+                <div>
+
+                    <h2>Emergency Center</h2>
+
+                    <p>
+                        Quick access to emergency assistance.
+                    </p>
+
+                </div>
+
+                <div class="emergency-symbol">
+                    🚨
+                </div>
+
+            </div>
+
+
+            <div class="emergency-grid">
+
+                <div class="emergency-card">
+
+                    <div class="big-icon">
+                        🚑
+                    </div>
+
+                    <h3>Emergency Services</h3>
+
+                    <p>
+                        Call emergency services immediately
+                        when urgent medical assistance is needed.
+                    </p>
+
+                    <button class="emergency-btn"
+                            onclick="callNumber('112')">
+
+                        Call 112
+
+                    </button>
+
+                </div>
+
+
+                <div class="emergency-card">
+
+                    <div class="big-icon">
+                        🏥
+                    </div>
+
+                    <h3>Medical Help</h3>
+
+                    <p>
+                        Contact a nearby hospital or
+                        healthcare professional.
+                    </p>
+
+                    <button class="secondary-btn"
+                            onclick="showHospitalMessage()">
+
+                        Find Help
+
+                    </button>
+
+                </div>
+
+
+                <div class="emergency-card">
+
+                    <div class="big-icon">
+                        👨‍⚕️
+                    </div>
+
+                    <h3>Health Reminder</h3>
+
+                    <p>
+                        MediEase is a support tool and does
+                        not replace professional medical advice.
+                    </p>
+
+                    <button class="secondary-btn"
+                            onclick="speakText('Please contact a qualified healthcare professional for medical advice.')">
+
+                        🔊 Listen
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toast"
+     class="toast">
+
+    <span id="toastMessage"></span>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
